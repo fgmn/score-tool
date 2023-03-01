@@ -1,0 +1,36 @@
+name: score-inquiry
+
+on:
+  push:
+    branches:
+      - master
+  schedule: # cron表达式设置定时启动
+    - cron: '0 0/20 8-23 * * *'  # 成绩由教务发布，因此在8:00-23:00教务工作时间段内每间隔20min启动一次
+
+jobs:
+  score-inquiry:
+    runs-on: ubuntu-latest  # 在最新版本的ubuntu系统上运行
+    strategy:
+      matrix: # 测试矩阵，对多个不同版本进行测试，简化设置
+        # 假设使用2个不同节点版本，3个mongo版本，4个Redis版本，需要设置24种不同配置
+        # 通过测试矩阵构建，大大简化以上过程
+        python-version: [3.9]
+    steps:
+      # uses为预定义操作，只要使用仓库中定义的操作，必须使用Checkout操作
+      - uses: actions/checkout@v2
+      # 安装python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 使用pip安装python依赖
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # 运行成绩查询脚本
+      - name: Run score query script
+        run:  # 将用户名和密码作为参数传入
+          python score-tool/main.py “${{ secrets.username }}” ${{ secrets.password }}
