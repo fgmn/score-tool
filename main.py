@@ -122,11 +122,12 @@ def get_ids(tr_obj):
 url = 'https://bkzhjx.wh.sdu.edu.cn/jsxsd/kscj/cjcx_list'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-    'Cookie': 'bzb_jsxsd=C91D2F49C5D85448D48CC3A25C989081; bzb_njw=AAAD27AC1BFD71C73273D9B2877FB5B6; SERVERID=124'
+    'Cookie': 'bzb_jsxsd=89AF5845041117D65D74017F0BF70322; SERVERID=121; bzb_njw=66722F48E7888E4EB731517C33F42D10'
 }
 # bzb_jsxsd=C91D2F49C5D85448D48CC3A25C989081; SERVERID=125; bzb_njw=4123B79CC29DE0A1C28D7DEDC8DCD6AF
 # bzb_jsxsd=C91D2F49C5D85448D48CC3A25C989081; bzb_njw=ED878962F23171A90F772477B7188F2D; SERVERID=124
 # bzb_jsxsd=C91D2F49C5D85448D48CC3A25C989081; SERVERID=124; bzb_njw=AAAD27AC1BFD71C73273D9B2877FB5B6
+# bzb_jsxsd=89AF5845041117D65D74017F0BF70322; SERVERID=121; bzb_njw=66722F48E7888E4EB731517C33F42D10
 # Cookie失效，可以存在多个有效cookie
 
 data = {
@@ -141,11 +142,11 @@ request = urllib.request.Request(url=url, data=data, headers=headers)
 response = urllib.request.urlopen(request)
 content = response.read().decode('utf-8')
 
-# try:
-#     with open('{}.html'.format('content'), 'w', encoding='utf-8') as f:
-#         f.write(content)
-# except Exception as e:
-#     print(e)
+try:
+    with open('{}.html'.format('content'), 'w', encoding='utf-8') as f:
+        f.write(content)
+except Exception as e:
+    print(e)
 
 # 通过BeautifulSoup解析得到成绩信息
 soup = BeautifulSoup(content, 'html.parser')
@@ -177,11 +178,11 @@ response = urllib.request.urlopen(request)
 content = response.read().decode('utf-8')
 # https://bkzhjx.wh.sdu.edu.cn/jsxsd/kscj/xskcpm_list.do?ids=F572722D68FCC0EDE053214BA8C02B45,F5C37CBE75714C42E053214BA8C0EC70,F2E73028529812D8E053214BA8C03E54,F5BFD841B098124FE053214BA8C0383E,F5D11282A8CB2E84E053214BA8C08AB0,EFEF0473068C09D1E053214BA8C020DD,
 # print(content)
-# try:
-#     with open('{}.html'.format('cont_detailed'), 'w', encoding='utf-8') as f:
-#         f.write(content)
-# except Exception as e:
-#     print(e)
+try:
+    with open('{}.html'.format('cont_detailed'), 'w', encoding='utf-8') as f:
+        f.write(content)
+except Exception as e:
+    print(e)
 
 # 进一步解析工作
 # 转化为JSON文件格式进行存储
